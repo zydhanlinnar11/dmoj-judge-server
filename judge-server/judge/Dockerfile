@@ -19,18 +19,18 @@ COPY judge/judge.yml /judge.yml
 
 # Install Java 11
 RUN mkdir -p /usr/share/man/man1/
-RUN apt-get install -y default-jdk-headless default-jre-headless
+RUN apt-get install -y --no-install-recommends default-jdk-headless default-jre-headless
 
 # Install Kotlin
-RUN apt-get install -y wget
+RUN apt-get install -y --no-install-recommends wget
 RUN wget https://github.com/JetBrains/kotlin/releases/download/v1.5.21/kotlin-compiler-1.5.21.zip
-RUN apt-get install -y unzip
+RUN apt-get install -y --no-install-recommends unzip
 RUN unzip kotlin-compiler-1.5.21.zip
 ENV PATH="/kotlinc/bin:${PATH}"
 RUN rm kotlin-compiler-1.5.21.zip
 
 # Install v8 dmoj
-RUN apt-get install -y curl gpg && \
+RUN apt-get install -y --no-install-recommends curl gpg && \
     echo 'deb [arch=amd64] https://apt.dmoj.ca/ buster main non-free' > /etc/apt/sources.list.d/dmoj.list && \
     curl https://dmoj.ca/dmoj-apt.key | apt-key add - && \
     apt-get update -y && apt-get install -y v8dmoj
