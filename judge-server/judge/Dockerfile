@@ -10,7 +10,7 @@ RUN apt-get install -y --no-install-recommends \
         libxtst6 tini
 
 # Install Java 11
-RUN apt-get install -y --no-install-recommends default-jdk-headless default-jre
+RUN apt-get install -y --no-install-recommends default-jdk-headless openjdk-11-jre-headless default-jre
 
 # Install Pypy3 and Python3
 RUN apt-get install -y --no-install-recommends pypy3 python3-setuptools python3-wheel cython3
