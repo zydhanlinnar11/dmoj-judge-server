@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Initialize submodules
-        run: |
-          git submodule update --init --recursive
       - name: Build images
         run: docker-compose build
         working-directory: judge-server

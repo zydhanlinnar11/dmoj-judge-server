@@ -8,8 +8,4 @@ services:
       - ./problems/:/problems
     cap_add:
       - SYS_PTRACE
-    deploy:
-      resources:
-        limits:
-          cpu: '0'
     command: dmoj -c /judge-runtime-paths.yml -p 9999 sch-npc-junior.zydhan.xyz
