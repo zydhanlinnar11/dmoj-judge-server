@@ -2,10 +2,16 @@
 
 This repository contains the Docker files to run a clone of the [DMOJ judge-server](https://github.com/DMOJ/judge-server).
 
-## Installation
-
-On-going
-
 ## Usage
 
-On-going
+First, install [Docker](https://docs.docker.com/engine/install/debian/).
+
+Next, run these commands.
+
+```bash
+cd judge-server
+mkdir problems
+docker-compose up -d
+```
+
+All done. :)
