@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:sid-slim
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
