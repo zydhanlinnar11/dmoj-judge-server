@@ -1,34 +1,41 @@
-FROM python:3.9.6-slim-buster
+FROM debian:buster-slim
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y python3-dev python3-pip build-essential libseccomp-dev
 
 # Install C++
-RUN apt-get install -y --no-install-recommends \
-        curl file gcc g++ libseccomp-dev bzip2 gzip \
-        libxtst6 tini
+RUN apt-get install -y --no-install-recommends gcc g++
 
-# Install Java 11
-RUN apt-get install -y --no-install-recommends openjdk-11-jre-headless
-RUN apt-get install -y --no-install-recommends default-jdk-headless default-jre
-
-# Install Pypy3 and Python3
-RUN apt-get install -y --no-install-recommends pypy3 python3-setuptools python3-wheel cython3
-
-# Install Kotlin
-RUN apt install snapd && \
-    snap install core && \
-    snap install kotlin --classic
-
-RUN useradd -m judge
+# Install Python3 & Pypy3
+RUN apt-get install -y --no-install-recommends python3-dev python3-pip build-essential libseccomp-dev pypy3
 
 # Install DMOJ
+RUN pip3 install setuptools
 RUN pip3 install dmoj
-RUN git clone --recursive https://github.com/DMOJ/judge.git
-RUN mkdir /judge /problems && cd /judge && \
-    HOME=~judge . ~judge/.profile && \
-    runuser -u judge -w PATH -- dmoj-autoconf -V > /judge-runtime-paths.yml && \
-    echo '  crt_x86_in_lib32: true' >> /judge-runtime-paths.yml
+RUN useradd -m judge
+RUN mkdir -p /judge /problems && cd /judge && \
+    HOME=~judge . ~judge/.profile
+COPY judge/judge.yml /judge.yml 
 
-ENTRYPOINT ["/judge/.docker/entry"]
+# Install Java 11
+RUN mkdir -p /usr/share/man/man1/
+RUN apt-get install -y default-jdk-headless default-jre-headless
+
+# Install Kotlin
+RUN apt-get install -y wget
+RUN wget https://github.com/JetBrains/kotlin/releases/download/v1.5.21/kotlin-compiler-1.5.21.zip
+RUN apt-get install -y unzip
+RUN unzip kotlin-compiler-1.5.21.zip
+ENV PATH="/kotlinc/bin:${PATH}"
+RUN rm kotlin-compiler-1.5.21.zip
+
+# Install v8 dmoj
+RUN apt-get install -y curl gpg && \
+    echo 'deb [arch=amd64] https://apt.dmoj.ca/ buster main non-free' > /etc/apt/sources.list.d/dmoj.list && \
+    curl https://dmoj.ca/dmoj-apt.key | apt-key add - && \
+    apt-get update -y && apt-get install -y v8dmoj
+
+# Uncomment to check runtimes
+# RUN runuser -u judge -w PATH -- dmoj-autoconf
+
+ENTRYPOINT runuser -u judge -- dmoj -c /config/judge.yml sch-npc-junior.zydhan.xyz "$JUDGE_NAME" "$JUDGE_KEY"

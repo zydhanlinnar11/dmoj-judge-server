@@ -9,6 +9,8 @@ services:
     restart: always
     volumes:
       - ./problems/:/problems
+      - ./judge/:/config
     cap_add:
       - SYS_PTRACE
     command: dmoj -c /judge-runtime-paths.yml -p 9999 sch-npc-junior.zydhan.xyz
+    env_file: [judge/judge.env]

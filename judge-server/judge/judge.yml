@@ -1,0 +1,12 @@
+problem_storage_root:
+  - /problems
+runtime:
+  g++17: /usr/bin/g++
+  gcc11: /usr/bin/gcc
+  python3: /usr/bin/python3
+  pypy3: /usr/bin/pypy3
+  java11: /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+  javac11: /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+  kotlin_vm: /usr/bin/java
+  kotlinc: /kotlinc/bin/kotlinc
+  v8dmoj: /usr/bin/v8dmoj
