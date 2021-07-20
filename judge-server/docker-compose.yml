@@ -1,6 +1,9 @@
 version: '3.8'
 services:
   judge:
+    build:
+      context: .
+      dockerfile: ./judge/Dockerfile
     container_name: dmoj_judge_server
     image: zydhanlinnar11/dmoj-judge-server
     restart: always
