@@ -1,0 +1,25 @@
+name: Build Docker Images
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 1'
+jobs:
+  build:
+    runs-on: debian-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Initialize submodules
+        run: |
+          git submodule update --init --recursive
+      - name: Build images
+        run: docker-compose build
+        working-directory: judge-server
+      - name: Push images to Docker
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/dmoj-docker'
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+          docker push zydhanlinnar11/dmoj-judge-server:latest
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
