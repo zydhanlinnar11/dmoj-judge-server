@@ -30,7 +30,7 @@ ENV PATH="/kotlinc/bin:${PATH}"
 RUN rm kotlin-compiler-1.5.21.zip
 
 # Install v8 dmoj
-RUN apt-get install -y --no-install-recommends curl gpg && \
+RUN apt-get install -y curl gpg && \
     echo 'deb [arch=amd64] https://apt.dmoj.ca/ buster main non-free' > /etc/apt/sources.list.d/dmoj.list && \
     curl https://dmoj.ca/dmoj-apt.key | apt-key add - && \
     apt-get update -y && apt-get install -y v8dmoj
