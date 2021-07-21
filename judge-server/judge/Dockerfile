@@ -35,7 +35,12 @@ RUN apt-get install -y curl gpg && \
     curl https://dmoj.ca/dmoj-apt.key | apt-key add - && \
     apt-get update -y && apt-get install -y v8dmoj
 
+# Install NFS and setup supervisor
+RUN apt-get install -y nfs-common
+RUN apt-get install -y supervisor
+COPY judge/supervisord.conf /etc/supervisor/conf.d/supervisord.conf 
+
 # Uncomment to check runtimes
 # RUN runuser -u judge -w PATH -- dmoj-autoconf
 
-ENTRYPOINT runuser -u judge -- dmoj -c /config/judge.yml sch-npc-junior.zydhan.xyz "$JUDGE_NAME" "$JUDGE_KEY"
+ENTRYPOINT supervisord

@@ -6,11 +6,12 @@ services:
       dockerfile: ./judge/Dockerfile
     container_name: dmoj_judge_server
     image: zydhanlinnar11/dmoj-judge-server
-    restart: always
+    restart: unless-stopped
+    privileged: true
+    cap_add: 
+      - CAP_SYS_ADMIN
     volumes:
-      - ./problems/:/problems
       - ./judge/:/config
     cap_add:
       - SYS_PTRACE
-    command: dmoj -c /judge-runtime-paths.yml -p 9999 sch-npc-junior.zydhan.xyz
     env_file: [judge/judge.env]
