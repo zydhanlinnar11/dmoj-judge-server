@@ -37,10 +37,9 @@ RUN apt-get install -y curl gpg && \
 
 # Install NFS and setup supervisor
 RUN apt-get install -y nfs-common
-RUN apt-get install -y supervisor
-COPY judge/supervisord.conf /etc/supervisor/conf.d/supervisord.conf 
+COPY judge/entry.sh /entry.sh
 
 # Uncomment to check runtimes
 # RUN runuser -u judge -w PATH -- dmoj-autoconf
 
-ENTRYPOINT supervisord
+ENTRYPOINT bash /entry.sh
