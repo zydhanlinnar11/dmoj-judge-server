@@ -14,7 +14,6 @@ Last, run these commands.
 git clone https://github.com/zydhanlinnar11/dmoj-judge-server
 cd dmoj-judge-server
 cd judge-server
-mkdir problems
 docker pull zydhanlinnar11/dmoj-judge-server
 docker-compose up -d
 ```
